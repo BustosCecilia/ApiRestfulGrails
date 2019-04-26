@@ -5,39 +5,46 @@
     <asset:javascript src="application.js"/>
 </head>
 <body>
-Seleciona un sitio:
-<select id ="sitios" onchange="llamarController()" >
-    <g:each var="c" in="${result }">
-        <option id="opcion" value = "${c.id}">
-            ${c.name}
-        </option>
-    </g:each>
-</select>
+Agencias:
+Agregue parametros
 
-<table id="tabla">
-    <tr>
-        <td>
-            <table id="tabla1"></table>
-        </td>
 
-        <td>
-            <table id="tabla2"></table>
-        </td>
-    </tr>
-</table>
+<g:form id="formulario" >
+    site_id <select id ="site_id" type= "text" >
+        <g:each var="c" in="${result }">
+            <option id="opcion" value = "${c.id}">
+                ${c.name}
+            </option>
+        </g:each>
+    </select>
+    payment_method_id:<input id ="payment_method_id"type="text" value="payment_method_id">
+    near_to:<input id="near_to" type="text" value="near_to">
+    limit: <input id= "limit"type="text" value="limit">
+    offset:<input id="offset"type="text" value="offset">
+    criterioOrden:<input id="criterioOrden"type="text" value="criterioOrden">
+    <input type="submit"onclick ="llamarController()" value="Mandar">
+
+</g:form>
+
 
 <asset:javascript src="metodos.js"/>
 <script>
     function llamarController() {
-        var id_site = document.getElementById("sitios");
-        var codigo_site = id_site.options[id_site.selectedIndex].value;
-        console.log(codigo_site);
-        var URL="${createLink(controller:'client',action:'obtenerCategorias')}";
+        console.log("llamarControler");
+        var site_id = document.getElementById("site_id").value;
+        var payment_method_id = document.getElementById("payment_method_id").value;
+        var near_to = document.getElementById("near_to").value;
+        var limit = document.getElementById("limit").value;
+        var offset= document.getElementById("offset").value;
+        var criterioOrden= document.getElementById("criterioOrden").value;
+        console.log("llegue aca");
+        var URL="${createLink(controller:'client',action:'obtenerAgencias')}";
         $.ajax({
             type: 'GET',
             url: URL,
             dataype: 'json',
-            data: {variabledelControler:codigo_site},
+            data: {site_id:site_id, payment_method_id:payment_method_id,
+                near_to:near_to,limit:limit,offset:offset,criterioOrden:criterioOrden },
             success: function(json){
                 console.log("ha£sta aca llego");
                 console.log(json);
@@ -47,43 +54,12 @@ Seleciona un sitio:
                 $.each(json,function(key,value){
                     $("#tabla1").append("<tr><td id="+value.id+">"+value.name+"</td></tr>");
                 });
-                $('#tabla1 tr td').click(function() {
-                    var href = $(this).attr("id");
-                    console.log(href)
-                    callSubCategorias(href);
-
-                });
             }
         });
 
-    }
-    function callSubCategorias(idSubCategoria) {
-        console.log("mi subcategoria"+idSubCategoria);
-        var URL="${createLink(controller:'client',action:'obtenerCategoriasHijas')}";
-        $.ajax({
-            type: 'GET',
-            url: URL,
-            dataype: 'json',
-            data: {variabledelControler1:idSubCategoria},
-            success: function(json){
-                console.log("llame a subcategoria");
-                console.log(json);
-                json = JSON.stringify(json);
-                json = JSON.parse(json);
-                console.log(json);
-                $("#tabla2 tr").remove();
-                $.each(json.children_categories,function(key1,value1){
-                    $("#tabla2").append("<tr><td id="+value1.id+">"+value1.name+"</td></tr>");
-                });
-                $('#tabla2 tr td').click(function() {
-                    var href = $(this).attr("id");
-                    console.log(href)
-                    callSubCategorias(href);
 
-                });
-            }
-        });
     }
+
 </script>
 </body>
 <html>
