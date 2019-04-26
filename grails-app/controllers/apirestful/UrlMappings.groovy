@@ -4,12 +4,13 @@ class UrlMappings {
 
     static mappings = {
 
-        "/categorias"(resources: "Categoria") {
-            "/items"(resources: "Item")
+        "/$controller/$action?/$id?(.$format)?"{
+            constraints {
+                // apply constraints here
+            }
         }
 
         "/"(controller: "Client")
-       // "/client2"(controller: "Client2")
        // "/"(view:"/index")
         "500"(view:'/error')
         "404"(view:'/notFound')

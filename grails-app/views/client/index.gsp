@@ -13,6 +13,7 @@ Seleciona un sitio:
         </option>
     </g:each>
 </select>
+<table id="tabla"></table>
 <asset:javascript src="metodos.js"/>
 <script>
     function llamarController() {
@@ -26,21 +27,19 @@ Seleciona un sitio:
             dataype: 'json',
             data: {variabledelControler:codigo_site},
             success: function(json){
-                console.log("hasta aca llego");
+                console.log("ha£sta aca llego");
                 console.log(json);
                 json = JSON.stringify(json);
                 json = JSON.parse(json);
+                $("#tabla tr").remove();
                 $.each(json,function(key,value){
-                $("body").append(value.name);
-
+                    $("#tabla").append("<tr><td id="+value.id+">"+value.name+"</td></tr>");
+                });
+                $('#tabla tr td').click(function() {
+                    var href = $(this).attr("id");
+                    console.log(href)
 
                 });
-
-              // $('#categorias').append(JSON.stringify(json[0]));
-
-
-               // console.log(json)
-
             }
         });
 

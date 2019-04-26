@@ -10,4 +10,5 @@ beans = {
     itemRenderer(JsonRenderer,Item) {
         excludes = ['id']
     }
+
 }
