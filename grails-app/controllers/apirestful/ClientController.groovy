@@ -33,7 +33,7 @@ class ClientController {
 
     def obtenerCategoriasHijas(){
         def id = params.variabledelControler1
-        def url = new URL("https://api.mercadolibre.com/sites/categories/"+id)
+        def url = new URL("https://api.mercadolibre.com/categories/"+id)
         def connection = (HttpURLConnection) url.openConnection()
         connection.setRequestMethod("GET")
         connection.setRequestProperty("Accept","aplication/json")

@@ -13,7 +13,12 @@ Seleciona un sitio:
         </option>
     </g:each>
 </select>
-<table id="tabla"></table>
+<table id="tabla">
+
+</table>
+<table id="tabla1">
+
+</table>
 <asset:javascript src="metodos.js"/>
 <script>
     function llamarController() {
@@ -38,11 +43,35 @@ Seleciona un sitio:
                 $('#tabla tr td').click(function() {
                     var href = $(this).attr("id");
                     console.log(href)
+                    callSubCategorias(href);
 
                 });
             }
         });
 
+    }
+    function callSubCategorias(idSubCategoria) {
+        console.log("mi subcategoria"+idSubCategoria);
+        var URL="${createLink(controller:'client',action:'obtenerCategoriasHijas')}";
+        $.ajax({
+            type: 'GET',
+            url: URL,
+            dataype: 'json',
+            data: {variabledelControler1:idSubCategoria},
+            success: function(json){
+                console.log("llame a subcategoria");
+                console.log(json);
+                json = JSON.stringify(json);
+                json = JSON.parse(json);
+                console.log(json);
+                $("#tabla1 tr").remove();
+                $.each(json.children_categories,function(key1,value1){
+                    $("#tabla1").append("<tr><td id="+value1.id+">"+value1.name+"</td></tr>");
+                });
+                
+
+            }
+        });
     }
 </script>
 </body>
