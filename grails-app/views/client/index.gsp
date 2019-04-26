@@ -14,11 +14,17 @@ Seleciona un sitio:
     </g:each>
 </select>
 <table id="tabla">
+    <tr>
+        <td>
+            <table id="tabla1"></table>
+        </td>
 
+        <td>
+            <table id="tabla2"></table>
+        </td>
+    </tr>
 </table>
-<table id="tabla1">
 
-</table>
 <asset:javascript src="metodos.js"/>
 <script>
     function llamarController() {
@@ -36,11 +42,11 @@ Seleciona un sitio:
                 console.log(json);
                 json = JSON.stringify(json);
                 json = JSON.parse(json);
-                $("#tabla tr").remove();
+                $("#tabla1 tr").remove();
                 $.each(json,function(key,value){
-                    $("#tabla").append("<tr><td id="+value.id+">"+value.name+"</td></tr>");
+                    $("#tabla1").append("<tr><td id="+value.id+">"+value.name+"</td></tr>");
                 });
-                $('#tabla tr td').click(function() {
+                $('#tabla1 tr td').click(function() {
                     var href = $(this).attr("id");
                     console.log(href)
                     callSubCategorias(href);
@@ -64,12 +70,16 @@ Seleciona un sitio:
                 json = JSON.stringify(json);
                 json = JSON.parse(json);
                 console.log(json);
-                $("#tabla1 tr").remove();
+                $("#tabla2 tr").remove();
                 $.each(json.children_categories,function(key1,value1){
-                    $("#tabla1").append("<tr><td id="+value1.id+">"+value1.name+"</td></tr>");
+                    $("#tabla2").append("<tr><td id="+value1.id+">"+value1.name+"</td></tr>");
                 });
-                
+                $('#tabla2 tr td').click(function() {
+                    var href = $(this).attr("id");
+                    console.log(href)
+                    callSubCategorias(href);
 
+                });
             }
         });
     }
