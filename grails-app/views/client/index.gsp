@@ -13,6 +13,7 @@ Seleciona un sitio:
         </option>
     </g:each>
 </select>
+
 <table id="tabla">
     <tr>
         <td>
